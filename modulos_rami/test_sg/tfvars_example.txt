@@ -1,0 +1,30 @@
+sg_name     = "ra-test-sg"
+vpc_id      = "vpc-01fc1ec68a8b03eb9"
+environment = "testing"
+project     = "terraform_test"
+
+rule_type        = "ingress"
+from_port        = 80
+to_port          = 80
+protocol         = "tcp"
+cidr_blocks      = ["0.0.0.0/0"]
+rule_description = "Allow HTTP traffic"
+
+rules = [
+  {
+    type        = "ingress"
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+    description = "Allow HTTP"
+  },
+  {
+    type        = "ingress"
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+    description = "Allow HTTPS"
+  }
+]
