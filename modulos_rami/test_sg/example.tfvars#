@@ -1,0 +1,23 @@
+rules = [
+  {
+    type        = "ingress"
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+    description = "Allow HTTP traffic"
+  },
+  {
+    type        = "ingress"
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+    description = "Allow HTTPS traffic"
+  }
+]
+
+environment = "Testing"
+vpc_id = "vpc-123456789"
+project = "Internship Program"
+sg_name = "ra-sg"

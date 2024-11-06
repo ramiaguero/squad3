@@ -1,34 +1,16 @@
 variable "sg_id" {
+  description = "ID of the security group to attach rules to"
   type        = string
-  description = "ID of the security group to apply the rule"
 }
 
-variable "type" {
-  type        = string
-  description = "Type of rule (ingress or egress)"
-}
-
-variable "from_port" {
-  type        = number
-  description = "Starting port for the rule"
-}
-
-variable "to_port" {
-  type        = number
-  description = "Ending port for the rule"
-}
-
-variable "protocol" {
-  type        = string
-  description = "Protocol for the rule (e.g., 'tcp', 'udp', '-1' for all)"
-}
-
-variable "cidr_blocks" {
-  type        = list(string)
-  description = "List of CIDR blocks for rule scope"
-}
-
-variable "description" {
-  type        = string
-  description = "Description of the rule"
+variable "rules" {
+  description = "List of rules for the security group"
+  type = list(object({
+    type        = string
+    from_port   = number
+    to_port     = number
+    protocol    = string
+    cidr_blocks = list(string)
+    description = string
+  }))
 }

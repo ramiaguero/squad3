@@ -17,3 +17,9 @@ variable "project" {
   type        = string
   description = "Project name for tagging"
 }
+
+variable "tags" {
+  type        = map(string)
+  description = "Additional tags to apply to the security group"
+  default     = {}
+}
