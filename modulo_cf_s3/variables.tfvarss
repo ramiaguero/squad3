@@ -1,0 +1,8 @@
+acm_certificate_arn = "arn:aws:acm:us-east-1:253490770873:certificate/2dba401e-3f08-4f28-9154-fbae6b575393"
+cname               = "www.vestigiashoes.lat"
+root_zone           = "vestigiashoes.lat"
+
+tags = {
+  "Environment" = "production"
+  "Project"     = "website"
+}
