@@ -1,0 +1,23 @@
+Steps to Test
+
+    Ensure prerequisites are met:
+        VPC and subnets are already created using a different module.
+        The db_subnet_group_name and security_group_ids must exist.
+
+    Prepare SSM Parameter:
+
+aws ssm put-parameter --name "/path/to/ssm/parameter" \
+  --type SecureString --value "your-db-password" \
+  --overwrite --region <your-region>
+
+Integrate into the project:
+
+    Add standalone_mysql_aurora/ to your Terraform root directory.
+    Ensure the centralized locals file is updated with appropriate placeholder values.
+
+Terraform Execution:
+
+Verify Outputs:
+
+    Check the Aurora endpoints (cluster_endpoint, reader_endpoint).
+    Validate the created Aurora instances using the instances output.
