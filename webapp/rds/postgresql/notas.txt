@@ -1,0 +1,88 @@
+Full Explanation
+main.tf
+
+    Module Configuration:
+        The Aurora PostgreSQL cluster is configured using the community module (terraform-aws-modules/rds-aurora/aws).
+        The parameters include:
+            engine: Specifies the database type, aurora-postgresql.
+            engine_version: Uses version 14.5 for PostgreSQL.
+            instance_class: Set to t2.micro for cost efficiency.
+
+    VPC and Subnet Integration:
+        The cluster is created in the VPC (module.vpc.vpc_id) and associated with a database subnet group (module.vpc.db_subnet_group_name).
+
+    Storage Encryption:
+        Enabled with a KMS key fetched using data.aws_kms_key.encryption_key.
+
+    Master Credentials:
+        master_username: Defaults to admin.
+        master_password: Securely fetched from the SSM parameter store (data.aws_ssm_parameter.master_password).
+
+    CloudWatch Logs:
+        Configured to export PostgreSQL logs to CloudWatch for monitoring (enabled_cloudwatch_logs_exports).
+
+    Tags:
+        Metadata for tracking the cluster (Environment, Project, Owner).
+
+outputs.tf
+
+    Cluster ID:
+        Outputs the ID of the Aurora PostgreSQL cluster for reference.
+    Cluster Endpoint:
+        Outputs the database endpoint for application connectivity.
+
+locals.tf
+
+    Cluster Name:
+        Defines a descriptive name for the Aurora cluster.
+    Instance Class:
+        Uses t2.micro for low-cost development environments.
+    Monitoring Interval:
+        Sets a 10-second interval for performance monitoring.
+    Tags:
+        Standardized metadata for resource identification.
+
+Steps to Test
+
+    Set Up Prerequisites:
+        Ensure the pre_build.tf file is applied to:
+            Create the required KMS key.
+            Set up the SSM parameter for the database password (/production/db/master_password).
+
+    Execute:
+
+terraform init
+terraform apply -target=aws_kms_key.encryption_key -target=aws_ssm_parameter.master_password
+
+Provide Data for Existing Infrastructure:
+
+    Confirm that your VPC module outputs:
+        vpc_id
+        db_subnet_group_name
+
+If these values are placeholders, replace them with your actual data:
+
+vpc_id               = "vpc-12345678"
+db_subnet_group_name = "db-subnet-group"
+
+Run the Aurora PostgreSQL Module: Execute:
+
+    terraform plan
+    terraform apply
+
+    Validate the Setup:
+        Check AWS Management Console for the created Aurora PostgreSQL cluster.
+        Confirm encryption with the KMS key and connectivity using the specified VPC and subnets.
+
+Key Adjustments for Testing
+
+    One Instance Only:
+        The instances block only includes one t2.micro instance for simplicity:
+
+    instances = {
+      one = {}
+    }
+
+Source Community Module:
+
+    Unlike the MySQL setup, this PostgreSQL version directly sources the community module for modularity and best practices.
